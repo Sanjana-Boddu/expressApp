@@ -40,6 +40,21 @@ app.get('/cars/:id', (req, res) => {
   }
 });
 
+app.get('/cars', (req, res) => {
+  try {
+    const { headers, body, params: { id } } = req;
+    db.query('SELECT * FROM cars', (error, results, fields) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).send(results);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error!');
+  }
+});
+
 app.post('/cars', (req, res) => {
   try {
     const { headers, body } = req;
